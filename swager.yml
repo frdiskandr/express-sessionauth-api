@@ -1,0 +1,288 @@
+openapi: '3.0.3'
+info:
+  title: Auth jwt + multi role session.
+  description: lorem
+  version: '1.0'
+servers:
+  - url: https://localhost:3000/api
+tags:
+  - name: auth
+    description: end point autentikasi
+  - name: page
+    description: user page
+paths:
+  /signUp:
+    description: user mendaftarkan diri
+    post:
+      tags:
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username: 
+                  type: string
+                  example: andi
+                email:
+                  type: string
+                  example: andi@gmail.com
+                password: 
+                  type: string
+                  example: andi123
+      responses:
+        '200':
+          description: success opration
+          content:
+            application/json:
+              schema: 
+                # $ref: "#/components/schemas/responses"
+                type: object 
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message: 
+                      type: string
+                      example: created!
+                  data: 
+                    type: object
+                    properties:
+                      token:
+                        type: string
+  /signIn:
+      description: user mendaftarkan diri
+      post:
+        tags:
+          - auth
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: andi@gmail.com
+                  password: 
+                    type: string
+                    example: andi123
+        responses:
+          '200':
+            description: success opration
+            content:
+              application/json:
+                schema: 
+                  # $ref: "#/components/schemas/responses"
+                  type: object 
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    message: 
+                        type: string
+                        example: created!
+                    data: 
+                      type: object
+                      properties:
+                        token:
+                          type: string
+  
+  /signOut:
+    description: user mendaftarkan diri
+    post:
+      tags:
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username: 
+                  type: string
+                  example: andi
+                email:
+                  type: string
+                  example: andi@gmail.com
+                password: 
+                  type: string
+                  example: andi123
+      responses:
+        '200':
+          description: success opration
+          content:
+            application/json:
+              schema: 
+                # $ref: "#/components/schemas/responses"
+                type: object 
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message: 
+                      type: string
+                      example: signout!
+                  data: 
+                    type: object
+
+  /home:
+    description: home page user can visit
+    get: 
+      tags: 
+        - page
+      parameters: 
+        - in: header
+          name: autorization
+          description: jwt token
+          required: true
+          schema:
+            type: string
+            example: Bearer <token>
+      responses:
+        '200':
+          description: success
+          content: 
+            application/json:
+              schema: 
+                # $ref: "#/components/schemas/responses"
+                type: object 
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message: 
+                      type: string
+                      example: home page!
+                  data: 
+                    type: object
+        '401':
+          description: unauthorize
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/errorResponse'
+  /dashboard:
+    description: home page user can visit
+    get: 
+      tags: 
+        - page
+      parameters: 
+        - in: header
+          name: autorization
+          description: jwt token
+          required: true
+          schema:
+            type: string
+            example: Bearer <token>
+      responses:
+        '200':
+          description: success
+          content: 
+            application/json:
+              schema: 
+                # $ref: "#/components/schemas/responses"
+                type: object 
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message: 
+                      type: string
+                      example: dashboard page!
+                  data: 
+                    type: object
+        '401':
+          description: unauthorize
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/errorResponse'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id: 
+          type: integer
+          example: 1
+        username: 
+          type: string
+          example: andi
+        email: 
+          type: string
+          example: andi@gmail.com
+        password: 
+          type: string
+          example: andi123
+        create_at:
+          type: string
+          example: 19-20-2025-jj-mm-dd
+        update_at:
+          type: string
+          example: 19-20-2025-jj-mm-dd
+
+    Session:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        user_id:
+          type: integer
+          example: 1
+          $ref: '#/components/schemas/User'
+        access_token: 
+          type: string
+          example: asdwehojnoaqweriuh
+        refresh_token:
+          type: string
+          example: sajsdfoiajodin
+        expires_access_token:
+          type: string
+          example: 19-20-2025-jj-mm-dd
+        expires_refresh_token:
+          type: string
+          example: 19-20-2025-jj-mm-dd
+        create_at:
+          type: string
+          example: 19-20-2025-jj-mm-dd
+        update_at:
+          type: string
+          example: 19-20-2025-jj-mm-dd
+    
+    responses:
+      properties:
+        success:
+          type: boolean
+          example: true
+        message: 
+          type: string
+          example: created!
+        data:
+          type: object
+          example: {}
+    
+    errorResponse:
+      properties:
+        success:
+          type: boolean
+          example: false
+        code:
+          type: number
+          example: 500
+        message: 
+          type: string
+          example: error!
+
+  securitySchemes:
+    jwt:
+      type: apiKey
+      name: token 
+      in: header
+
