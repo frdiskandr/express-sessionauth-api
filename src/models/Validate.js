@@ -6,7 +6,7 @@ async function ValidateSchema(schema, data) {
         return valid
     }catch(e){
         console.log(e)
-        throw new ResponseError(`validation error: ${e.errors}`, 400);
+        throw new ResponseError(400,`validation error: ${e.errors}`);
     }
 }
 

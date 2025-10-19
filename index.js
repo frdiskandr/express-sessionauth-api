@@ -9,7 +9,16 @@ import ErrorMiddleware from './src/middleware/ErrorMiddleware.js';
 import Logger from './src/utils/Logger.js';
 import cookieParser from 'cookie-parser';
 import pageRoute from './src/routes/pageRoute.js';
+import { Db } from './src/lib/prisma.js';
+import ResponseError from './src/Error/ResponseError.js';
 
+// check connection db
+Db.$connect().then((res) => {
+}).catch(e => {
+    throw new ResponseError(500, "database not connected")
+}).finally(() => {
+    Db.$disconnect()
+})
  
 // initialize app
 const app = express();
@@ -30,7 +39,7 @@ app.use("/api-docs", swagerUi.serve, swagerUi.setup(swagerDocs));
 
 // --- Routes ---
 // Frontend Page Routes
-// app.use("/", pageRoute);
+app.use("/", pageRoute);
 // API Routes
 app.use("/api/v1", v1);
 

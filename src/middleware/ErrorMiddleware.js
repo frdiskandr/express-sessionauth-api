@@ -8,6 +8,7 @@ const ErrorMiddleware = async (err, req , res , next) => {
             code,
             message: err.message
         })
+        return
     }
      res.status(code).json({
             success: false,

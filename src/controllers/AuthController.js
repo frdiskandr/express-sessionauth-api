@@ -55,8 +55,8 @@ class AuthController {
 
     static async signOut(req, res, next) {
         try {
-            const { id } = req.user;
-            await session.remove(id);
+            const {id} = req.user;
+            await session.remove(token);
             res.status(200).json({
                 success: true,
                 message: "sign out!"

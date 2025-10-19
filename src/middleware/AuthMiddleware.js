@@ -9,7 +9,6 @@ export const AuthMiddleware = async (req, res , next ) => {
         if (!authHeader) {
             throw new ResponseError(401, "Unauthorize!");
         }
-        const token = authHeader
         const userSession = await session.findByToken(token);
         if(!userSession) throw new ResponseError(401, "Unauthorize user!");
         if(new Date(userSession.expires_access_token) < new Date()){

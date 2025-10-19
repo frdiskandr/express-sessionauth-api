@@ -3,7 +3,6 @@ import {ValidateSchema} from "../models/Validate.js";
 import {LoginSchema, userSchema} from "../models/schema/userSchema.js";
 import hashing from "../utils/hashing.js";
 import {Db} from "../lib/prisma.js";
-import ResponseError from "../Error/ResponseError.js";
 import jwt from "../utils/jwt.js";
 import session from "../utils/session.js";
 
